@@ -4,7 +4,7 @@
   "judge_model": "sonnet",
   "prompt_version": "v1",
   "prompt_sha256": "ff982c29ad15efac24b3aa3cb434a305d64b698cf126ec13cc41007da38c78ef",
-  "findings_path": "C:\\projects\\vs_code\\spotlights\\runs\\spotlights\\full-a690fb5\\findings.json",
+  "findings_path": "runs/spotlights/full-a690fb5/findings.json",
   "scored_at": "2026-06-15T11:51:56.058120+00:00",
   "summary": {
     "n_findings": 9,
@@ -342,7 +342,7 @@
           "pr_number": 40020,
           "tier": 2,
           "verdict": "same_idea",
-          "hunk_citation": "register_spec('TieringOffloadingSpec', 'vllm.v1.kv_offload.tiering.spec', ...) \u2014 tiered spec via the factory"
+          "hunk_citation": "register_spec('TieringOffloadingSpec', 'vllm.v1.kv_offload.tiering.spec', ...) — tiered spec via the factory"
         }
       ]
     },

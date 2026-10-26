@@ -2,7 +2,7 @@
 
 - **Window**: `2025-12-02__2026-06-03`
 - **Judge model**: `sonnet` (prompt v1)
-- **Findings file**: `C:\projects\vs_code\spotlights\runs\spotlights\code-only-a690fb5\findings.json`
+- **Findings file**: `runs/spotlights/code-only-a690fb5/findings.json`
 - **Scored at**: 2026-06-14T17:04:26.550682+00:00
 - **Ground truth**: **624 PRs** in the filtered view (out of **5329** merged PRs scraped, 11.7%). Findings are graded against the diffs of these view PRs.
 

@@ -4,7 +4,7 @@
   "judge_model": "sonnet",
   "prompt_version": "v1",
   "prompt_sha256": "ff982c29ad15efac24b3aa3cb434a305d64b698cf126ec13cc41007da38c78ef",
-  "findings_path": "C:\\projects\\vs_code\\spotlights\\runs\\spotlights\\code-only-a690fb5\\findings.json",
+  "findings_path": "runs/spotlights/code-only-a690fb5/findings.json",
   "scored_at": "2026-06-10T15:58:14.268175+00:00",
   "summary": {
     "n_findings": 10,
@@ -142,13 +142,13 @@
           "pr_number": 27942,
           "tier": 1,
           "verdict": "related",
-          "hunk_citation": "transfer_async records start/end events and stores Transfer dataclass for per-call timing \u2014 orthogonal perf telemetry, not the dispatch reduction"
+          "hunk_citation": "transfer_async records start/end events and stores Transfer dataclass for per-call timing — orthogonal perf telemetry, not the dispatch reduction"
         },
         {
           "pr_number": 29870,
           "tier": 1,
           "verdict": "related",
-          "hunk_citation": "transfer_async adds self._transfer_events[job_id]=event and a new wait() \u2014 preemption bug fix, not the per-layer batching"
+          "hunk_citation": "transfer_async adds self._transfer_events[job_id]=event and a new wait() — preemption bug fix, not the per-layer batching"
         },
         {
           "pr_number": 37206,
@@ -199,13 +199,13 @@
           "pr_number": 29870,
           "tier": 1,
           "verdict": "related",
-          "hunk_citation": "get_finished: adds `del self._transfer_events[job_id]`; new wait() \u2014 preemption handling, not per-stream FIFO"
+          "hunk_citation": "get_finished: adds `del self._transfer_events[job_id]`; new wait() — preemption handling, not per-stream FIFO"
         },
         {
           "pr_number": 27942,
           "tier": 2,
           "verdict": "related",
-          "hunk_citation": "get_finished rewritten to emit TransferResult with start/end-event timing \u2014 metrics, not polling-cost reduction"
+          "hunk_citation": "get_finished rewritten to emit TransferResult with start/end-event timing — metrics, not polling-cost reduction"
         },
         {
           "pr_number": 31916,

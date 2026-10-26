@@ -4,7 +4,7 @@
   "judge_model": "sonnet",
   "prompt_version": "v1",
   "prompt_sha256": "ff982c29ad15efac24b3aa3cb434a305d64b698cf126ec13cc41007da38c78ef",
-  "findings_path": "C:\\projects\\vs_code\\spotlights\\runs\\signal-pipeline\\with-telemetry-4b612664-bigger\\report\\findings.json",
+  "findings_path": "runs/signal-pipeline/with-telemetry-4b612664-bigger/report/findings.json",
   "scored_at": "2026-06-15T12:28:38.740947+00:00",
   "summary": {
     "n_findings": 5,
@@ -65,7 +65,7 @@
           "pr_number": 24498,
           "tier": 2,
           "verdict": "related",
-          "hunk_citation": "self.num_blocks = int(cpu_bytes_to_use) // kv_bytes_per_offloaded_block \u2014 resizes pool, doesn't gate instantiation"
+          "hunk_citation": "self.num_blocks = int(cpu_bytes_to_use) // kv_bytes_per_offloaded_block — resizes pool, doesn't gate instantiation"
         },
         {
           "pr_number": 31916,
@@ -77,7 +77,7 @@
           "pr_number": 35342,
           "tier": 2,
           "verdict": "same_idea",
-          "hunk_citation": "FilterReusedOffloadingManager wraps manager when store_threshold>=2 to suppress unused GPU\u2192CPU stores"
+          "hunk_citation": "FilterReusedOffloadingManager wraps manager when store_threshold>=2 to suppress unused GPU→CPU stores"
         },
         {
           "pr_number": 36610,
@@ -167,7 +167,7 @@
           "pr_number": 33290,
           "tier": 2,
           "verdict": "related",
-          "hunk_citation": "Adds PromptTokenStats with per-source breakdown (local_compute / local_cache_hit / external_kv_transfer) \u2014 alternative metric, not a fix to PrefixCacheStats.record"
+          "hunk_citation": "Adds PromptTokenStats with per-source breakdown (local_compute / local_cache_hit / external_kv_transfer) — alternative metric, not a fix to PrefixCacheStats.record"
         },
         {
           "pr_number": 34510,
@@ -206,7 +206,7 @@
           "pr_number": 27987,
           "tier": 1,
           "verdict": "related",
-          "hunk_citation": "do_tracing: span.set_attribute(GEN_AI_REQUEST_ID, req_state.external_req_id) \u2014 touches span attrs, not code.*"
+          "hunk_citation": "do_tracing: span.set_attribute(GEN_AI_REQUEST_ID, req_state.external_req_id) — touches span attrs, not code.*"
         },
         {
           "pr_number": 28284,
@@ -263,7 +263,7 @@
           "pr_number": 24322,
           "tier": 2,
           "verdict": "related",
-          "hunk_citation": "Adds DraftModelProposer routing in __init__/propose_draft_token_ids \u2014 enables draft-model speculative decoding the finding cites as a mitigation"
+          "hunk_citation": "Adds DraftModelProposer routing in __init__/propose_draft_token_ids — enables draft-model speculative decoding the finding cites as a mitigation"
         },
         {
           "pr_number": 25954,
