@@ -1,0 +1,113 @@
+<svg viewBox="0 0 900 310" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="A grid. Rows are solution-similarity verdicts: same_idea, related, neighborhood, no_match. Columns are localization tiers T1 (diff inside the named symbol) and T2 (same file, other function). Cell values run from 1.00 at same_idea plus T1 down to 0.00 for no_match.">
+  <defs>
+    <style>
+      :root {
+        --ink:     #15181d;
+        --muted:   #5b6472;
+        --hair:    #ccd3dc;
+        --rule:    #8a95a3;
+        --surface: #ffffff;
+        --head:    #eef1f5;
+        --s100:    #d7f0e2;
+        --s070:    #e6f5ec;
+        --s060:    #eaf2fb;
+        --s040:    #f2f7fd;
+        --s005:    #f4f5f7;
+        --s000:    #fafbfc;
+        --strong:  #0f7a46;
+        --mid:     #1d64d8;
+        --weak:    #8b94a1;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ink:     #e9ecf1;
+          --muted:   #a3adbb;
+          --hair:    #3c4553;
+          --rule:    #76818f;
+          --surface: #171b21;
+          --head:    #1f242c;
+          --s100:    #14492f;
+          --s070:    #163a28;
+          --s060:    #162c47;
+          --s040:    #162335;
+          --s005:    #1d2128;
+          --s000:    #191d23;
+          --strong:  #4ddb95;
+          --mid:     #74a9ff;
+          --weak:    #7f8a98;
+        }
+      }
+      text { font-family: -apple-system, "Segoe UI", Inter, system-ui, sans-serif; }
+      .cap   { font-size: 10.5px; font-weight: 650; fill: var(--muted); letter-spacing: .09em; }
+      .hd    { font-size: 12.5px; font-weight: 650; fill: var(--ink); }
+      .b     { font-size: 11.5px; font-weight: 400; fill: var(--muted); }
+      .mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+               font-size: 12px; font-weight: 500; fill: var(--ink); }
+      .val   { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+               font-size: 15px; font-weight: 600; }
+      .cell  { stroke: var(--hair); stroke-width: 1; }
+      .headc { fill: var(--head); stroke: var(--hair); stroke-width: 1; }
+      .frame { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <text x="34" y="24" class="cap">LOCALIZATION  ×  SOLUTION SIMILARITY</text>
+
+  <!-- column headers -->
+  <rect x="300" y="40" width="150" height="42" class="headc"/>
+  <rect x="450" y="40" width="150" height="42" class="headc"/>
+  <text x="375" y="60" class="hd" text-anchor="middle">T1</text>
+  <text x="375" y="75" class="b"  text-anchor="middle">inside the named symbol</text>
+  <text x="525" y="60" class="hd" text-anchor="middle">T2</text>
+  <text x="525" y="75" class="b"  text-anchor="middle">same file, other function</text>
+
+  <!-- row: same_idea -->
+  <rect x="34"  y="82" width="266" height="46" class="headc"/>
+  <text x="50"  y="103" class="mono">same_idea</text>
+  <text x="50"  y="119" class="b">the change the maintainers made</text>
+  <rect x="300" y="82" width="150" height="46" class="cell" fill="var(--s100)"/>
+  <rect x="450" y="82" width="150" height="46" class="cell" fill="var(--s070)"/>
+  <text x="375" y="112" class="val" text-anchor="middle" fill="var(--strong)">1.00</text>
+  <text x="525" y="112" class="val" text-anchor="middle" fill="var(--strong)">0.70</text>
+
+  <!-- row: related -->
+  <rect x="34"  y="128" width="266" height="46" class="headc"/>
+  <text x="50"  y="149" class="mono">related</text>
+  <text x="50"  y="165" class="b">same code, a different change</text>
+  <rect x="300" y="128" width="150" height="46" class="cell" fill="var(--s060)"/>
+  <rect x="450" y="128" width="150" height="46" class="cell" fill="var(--s040)"/>
+  <text x="375" y="158" class="val" text-anchor="middle" fill="var(--mid)">0.60</text>
+  <text x="525" y="158" class="val" text-anchor="middle" fill="var(--mid)">0.40</text>
+
+  <!-- row: neighborhood -->
+  <rect x="34"  y="174" width="266" height="46" class="headc"/>
+  <text x="50"  y="195" class="mono">neighborhood</text>
+  <text x="50"  y="211" class="b">same file, unrelated code</text>
+  <rect x="300" y="174" width="150" height="46" class="cell" fill="var(--s005)"/>
+  <rect x="450" y="174" width="150" height="46" class="cell" fill="var(--s005)"/>
+  <text x="375" y="204" class="val" text-anchor="middle" fill="var(--weak)">0.05</text>
+  <text x="525" y="204" class="val" text-anchor="middle" fill="var(--weak)">0.05</text>
+
+  <!-- row: no_match -->
+  <rect x="34"  y="220" width="266" height="46" class="headc"/>
+  <text x="50"  y="241" class="mono">no_match</text>
+  <text x="50"  y="257" class="b">nothing to do with the finding</text>
+  <rect x="300" y="220" width="150" height="46" class="cell" fill="var(--s000)"/>
+  <rect x="450" y="220" width="150" height="46" class="cell" fill="var(--s000)"/>
+  <text x="375" y="250" class="val" text-anchor="middle" fill="var(--weak)">0.00</text>
+  <text x="525" y="250" class="val" text-anchor="middle" fill="var(--weak)">0.00</text>
+
+  <rect x="34" y="82" width="566" height="184" class="frame"/>
+
+  <!-- side note -->
+  <text x="634" y="104" class="hd">Why two axes</text>
+  <text x="634" y="126" class="b">A finding can name the right function</text>
+  <text x="634" y="142" class="b">and propose the wrong fix, or the right</text>
+  <text x="634" y="158" class="b">fix in the wrong place. Collapsing them</text>
+  <text x="634" y="174" class="b">hides which failure you actually have.</text>
+  <text x="634" y="204" class="hd">Per finding</text>
+  <text x="634" y="226" class="b">Take the best cell it reaches across</text>
+  <text x="634" y="242" class="b">its candidate PRs. The run's score is</text>
+  <text x="634" y="258" class="b">the mean of those, always in [0, 1].</text>
+</svg>

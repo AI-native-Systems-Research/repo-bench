@@ -11,7 +11,7 @@ point?**
 
 ## Pipeline at a glance
 
-![Repo bench pipeline](repo_bench_pipeline.svg)
+![The repo-bench pipeline: six deterministic stages under one `run` command, then a separate `match` step that grades a findings.json against the filtered PR diffs with an LLM judge.](img/pipeline.svg)
 
 A single `repo-bench run` invocation drives stages 1–6 and
 produces a self-contained run dir: filtered view + cached diffs +
@@ -289,7 +289,7 @@ regex covers the common case for ~$0.
 All repo-specific patterns (model families, feature flags, hardware
 tags, file→category mappings, perf nouns, chore tags) live in TOML
 configs under
-[`src/repo_bench/configs/`](../../src/repo_bench/configs/):
+[`src/repo_bench/configs/`](../src/repo_bench/configs/):
 
 ```
 configs/
@@ -310,7 +310,7 @@ Each TOML file extends a generic baseline (perf nouns like
 don't redeclare what's already generic.
 
 The schema is in
-[`src/repo_bench/config.py`](../../src/repo_bench/config.py).
+[`src/repo_bench/config.py`](../src/repo_bench/config.py).
 
 ## Costs, roughly
 
@@ -340,8 +340,8 @@ under $2 to grade end-to-end.
   judges the findings against current diffs. Matching is not yet
   cached (POC stance — prompt + judge model are stable across runs,
   but no on-disk cache).
-- **`prompt_sha256` and `model_id` land in the manifest** so any
-  future review can verify what produced the report.
+- **`prompt_sha256`, `prompt_version` and `judge_model` land in the
+  report**, so any future review can verify what produced it.
 
 ## Contract with adjacent modules
 
@@ -402,6 +402,9 @@ src/repo_bench/
   bench_spec.py              # JSON + MD render for the spec
   matching.py                # findings → diffs LLM judge
   report.py                  # JSON + MD render for run summaries
+  agent_runner.py            # vendored `claude -p` driver (default LLM runner)
+  hashing.py                 # vendored artifact_hash — computes view_id
+  errors.py                  # agent setup/validation errors
   run.py                     # orchestrator (run.benchmark)
   templates/                 # MD templates (bench_spec, run_report)
 
@@ -411,7 +414,7 @@ src/repo_bench/
     rules.py                 # all filter rules + RankBySpecificityAndMagnitude
     derive.py                # apply rules → <run_dir>/view/
 
-tests/unit/repo_bench/
+tests/unit/
   test_aggregation.py        # GitHub scrape (no network in CI)
   test_filtering.py          # rules + derive + view_id determinism
   test_diff_fetcher.py       # diff fetcher with stub HTTP
@@ -420,5 +423,5 @@ tests/unit/repo_bench/
   test_storage.py            # IO primitives
 ```
 
-78 tests; the full suite runs in ~1 second. No live LLM calls in
+75 tests; the full suite runs in ~1 second. No live LLM calls in
 tests — `match` accepts an injected runner protocol.
