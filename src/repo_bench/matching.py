@@ -28,18 +28,20 @@ import json
 import logging
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from spotlights_engine.agent_proposals.claude_exec import (
+from repo_bench.agent_runner import (
     CandidateAgentRunResult,
+)
+from repo_bench.agent_runner import (
     run_candidate_claude as _run_claude_default,
 )
-from spotlights_engine.repo_bench.schemas import RawPR
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.schemas import RawPR
+from repo_bench.storage import (
     atomic_write_text,
     data_root,
     raw_dir,
@@ -527,7 +529,7 @@ def run_matching(
         "prompt_version": PROMPT_VERSION,
         "prompt_sha256": p_sha,
         "findings_path": str(findings_path),
-        "scored_at": datetime.now(timezone.utc).isoformat(),
+        "scored_at": datetime.now(UTC).isoformat(),
         "summary": summary,
         "per_finding": per_finding,
     }
@@ -637,8 +639,14 @@ def render_match_md(report: dict) -> str:
             f"| **Weighted score** (score `{s.get('score_version','v1')}`) "
             f"| **{s['weighted_score']:.3f}** |"
         )
-    out.append(f"| `same_idea` (strict) | {s['per_finding_hit']['strict_same_idea']} ({pct_strict:.0f}%) |")
-    out.append(f"| `same_idea` or `related` (loose) | {s['per_finding_hit']['loose_same_idea_or_related']} ({pct_loose:.0f}%) |")
+    out.append(
+        f"| `same_idea` (strict) | "
+        f"{s['per_finding_hit']['strict_same_idea']} ({pct_strict:.0f}%) |"
+    )
+    out.append(
+        f"| `same_idea` or `related` (loose) | "
+        f"{s['per_finding_hit']['loose_same_idea_or_related']} ({pct_loose:.0f}%) |"
+    )
     out.append(f"| Tier-2 yield | {s['tier_2_yield']} ({pct_t2:.0f}%) |")
     out.append("")
     if "per_finding_score" in s:

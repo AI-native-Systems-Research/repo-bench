@@ -10,7 +10,7 @@ feels heavier than the few lines of `urlopen` it would replace.
 
 Usage:
 
-    from spotlights_engine.repo_bench import aggregation
+    from repo_bench import aggregation
     handle = aggregation.scrape(
         window_start="2025-12-03",
         window_end="2026-06-03",
@@ -26,23 +26,22 @@ from __future__ import annotations
 import http.client
 import json
 import logging
-import socket
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.schemas import (
     AggregationManifest,
     FileChange,
     RawPR,
 )
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     append_jsonl,
     raw_dir,
     read_jsonl_lenient,
@@ -152,11 +151,11 @@ def scrape(
     rows = sorted(already.values(), key=lambda r: r["pr_number"])
     write_jsonl(prs_path, rows)
     manifest = AggregationManifest(
-        window_start=datetime.combine(start, datetime.min.time(), tzinfo=timezone.utc),
-        window_end=datetime.combine(end, datetime.min.time(), tzinfo=timezone.utc),
+        window_start=datetime.combine(start, datetime.min.time(), tzinfo=UTC),
+        window_end=datetime.combine(end, datetime.min.time(), tzinfo=UTC),
         window_days=(end - start).days,
         github_query=query,
-        fetched_at=datetime.now(timezone.utc),
+        fetched_at=datetime.now(UTC),
         total_prs_returned=len(rows),
         repo=repo,
     )
@@ -183,7 +182,7 @@ def scrape(
 
 
 def _load_or_discover_numbers(
-    client: "_GitHubClient",
+    client: _GitHubClient,
     start: date,
     end: date,
     cache_path: Path,
@@ -283,9 +282,9 @@ class _GitHubClient:
                 return self._get_json(url, attempt=attempt + 1)
             raise
         except (
+            TimeoutError,
             http.client.IncompleteRead,
             urllib.error.URLError,
-            socket.timeout,
             ConnectionError,
         ) as e:
             # Transient network glitches — retry with bounded backoff.

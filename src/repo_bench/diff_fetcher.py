@@ -31,15 +31,15 @@ import tempfile
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from spotlights_engine.repo_bench.aggregation import (
+from repo_bench.aggregation import (
     DEFAULT_REPO,
     USER_AGENT,
     _GitHubClient,
 )
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     raw_dir,
     write_json,
 )
@@ -113,7 +113,7 @@ def fetch_diffs(
         _atomic_write_bytes(diff_path, body)
         manifest[str(pr_number)] = {
             "sha256": sha,
-            "fetched_at": datetime.now(timezone.utc).isoformat(),
+            "fetched_at": datetime.now(UTC).isoformat(),
             "bytes": len(body),
         }
         # Persist manifest after each PR so a Ctrl+C mid-run leaves a

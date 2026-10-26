@@ -10,15 +10,15 @@ The MD is generated from the JSON. Same idiom as bench_spec.py.
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.schemas import (
     RunReport,
     SnapshotPin,
     StageReport,
 )
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     atomic_write_text,
     runs_root,
     write_json,
@@ -38,7 +38,7 @@ def make_run_id(window_id: str, view_id: str) -> str:
     `runs/repo_bench/` — distinguishes them from other
     timestamped artifacts that might land near them.
     """
-    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    ts = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     return f"bench-{window_id}__{view_id}__{ts}"
 
 

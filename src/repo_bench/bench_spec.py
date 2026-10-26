@@ -18,15 +18,15 @@ docs/ location, because the spec is per-run.
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.schemas import (
     BenchSpec,
     BenchSpecConfig,
     SnapshotPin,
 )
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     atomic_write_text,
     write_json,
 )
@@ -67,7 +67,7 @@ def write_spec(
         view_id=snapshot.view_id,
         snapshot=snapshot,
         config=BenchSpecConfig(notes=config_notes),
-        written_at=datetime.now(timezone.utc),
+        written_at=datetime.now(UTC),
     )
 
     json_path = run_dir / BENCH_SPEC_JSON_NAME

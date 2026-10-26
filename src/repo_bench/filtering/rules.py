@@ -17,9 +17,8 @@ from __future__ import annotations
 
 from typing import Any, Protocol, runtime_checkable
 
-from spotlights_engine.repo_bench.filtering import heuristics
-from spotlights_engine.repo_bench.schemas import RawPR, RuleSpec
-
+from repo_bench.filtering import heuristics
+from repo_bench.schemas import RawPR, RuleSpec
 
 # ── Protocols ─────────────────────────────────────────────────────────
 

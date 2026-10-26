@@ -27,8 +27,9 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     data_root,
     raw_dir,
 )
@@ -279,7 +280,7 @@ FILE_CATEGORY_PATTERNS = [
 ]
 
 
-def set_active_config(workload_patterns: "Any") -> None:
+def set_active_config(workload_patterns: Any) -> None:
     """Replace module-level pattern lists from compiled-config patterns.
 
     `workload_patterns` is a `CompiledWorkloadPatterns`. Mutates
@@ -357,7 +358,8 @@ def extract_signals(pr: dict, diff_text: str | None) -> PRSignals:
     s.runnable_commands = extract_runnable_commands(pr.get("body", "") or "")
 
     # Has a "Serving Benchmark Result" table or similar?
-    if re.search(r"Serving Benchmark Result|Benchmark duration|Output token throughput|Request throughput",
+    if re.search(r"Serving Benchmark Result|Benchmark duration"
+                 r"|Output token throughput|Request throughput",
                  blob, re.IGNORECASE):
         s.has_benchmark_table = True
 
@@ -679,7 +681,8 @@ def render_summary(agg: dict, portfolio: list[dict], n: int) -> str:
         "those PRs covered, and repeats. Pairs covering fewer than 3 "
         "PRs are pruned as noise.\n\n"
     )
-    lines.append("| # | Model | Feature | Total PRs at intersection | New covered | Cumulative share | Example PRs |\n")
+    lines.append("| # | Model | Feature | Total PRs at intersection "
+                 "| New covered | Cumulative share | Example PRs |\n")
     lines.append("|---:|---|---|---:|---:|---:|---|\n")
     for i, e in enumerate(portfolio, 1):
         examples = ", ".join(f"#{n}" for n in e.get("example_pr_numbers", []))
@@ -737,9 +740,9 @@ def analyze(
         raise FileNotFoundError(f"raw scrape not found: {raw_path}")
 
     view_pr_numbers = {
-        int(json.loads(l)["pr_number"])
-        for l in view_path.open(encoding="utf-8")
-        if l.strip()
+        int(json.loads(line)["pr_number"])
+        for line in view_path.open(encoding="utf-8")
+        if line.strip()
     }
 
     raw_by_n: dict[int, dict] = {}

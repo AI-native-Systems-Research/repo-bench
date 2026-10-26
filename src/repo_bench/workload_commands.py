@@ -32,18 +32,20 @@ import logging
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from spotlights_engine.agent_proposals.claude_exec import (
+from repo_bench.agent_runner import (
     CandidateAgentRunResult,
+)
+from repo_bench.agent_runner import (
     run_candidate_claude as _run_claude_default,
 )
-from spotlights_engine.repo_bench.schemas import RawPR
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.schemas import RawPR
+from repo_bench.storage import (
     append_jsonl,
     atomic_write_text,
     data_root,
@@ -69,7 +71,10 @@ class WorkloadConfig(BaseModel):
     serve_command: str = Field(min_length=1)
     bench_command: str = Field(default="", description="May be empty if PR didn't document one.")
     hardware: str = Field(default="", description="GPU count + type if mentioned.")
-    citation: str = Field(default="", description="One-line excerpt from PR body where command appeared.")
+    citation: str = Field(
+        default="",
+        description="One-line excerpt from PR body where command appeared.",
+    )
 
 
 class PRWorkloadExtraction(BaseModel):
@@ -268,10 +273,16 @@ def _cluster(extractions: dict[int, PRWorkloadExtraction]) -> list[WorkloadClust
         cmd_counter = Counter(cfg.serve_command for _, cfg in entries if cfg.model == top_model)
         top_serve, _ = cmd_counter.most_common(1)[0]
         # Pick a bench cmd that pairs with the top serve
-        bench_for_top = [cfg.bench_command for _, cfg in entries if cfg.serve_command == top_serve and cfg.bench_command]
+        bench_for_top = [
+            cfg.bench_command for _, cfg in entries
+            if cfg.serve_command == top_serve and cfg.bench_command
+        ]
         top_bench = Counter(bench_for_top).most_common(1)[0][0] if bench_for_top else ""
         # Pick most-cited hardware
-        hw_for_top = [cfg.hardware for _, cfg in entries if cfg.serve_command == top_serve and cfg.hardware]
+        hw_for_top = [
+            cfg.hardware for _, cfg in entries
+            if cfg.serve_command == top_serve and cfg.hardware
+        ]
         top_hw = Counter(hw_for_top).most_common(1)[0][0] if hw_for_top else ""
 
         cluster_id = f"{fam} + {' + '.join(feats) if feats else 'no-flags'}"
@@ -490,7 +501,7 @@ def extract(
         "judge_model": judge_model,
         "prompt_version": PROMPT_VERSION,
         "prompt_sha256": p_sha,
-        "extracted_at": datetime.now(timezone.utc).isoformat(),
+        "extracted_at": datetime.now(UTC).isoformat(),
         "n_prs_extracted": len(extractions),
         "n_prs_with_commands": n_with_commands,
         "top_n": top_n,

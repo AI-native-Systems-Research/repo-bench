@@ -68,17 +68,17 @@ entry point.
 
 ```powershell
 # 1) Scrape (one-time per window). Reuses cache after first run.
-python -m spotlights_engine.repo_bench.cli aggregate `
+python -m repo_bench.cli aggregate `
   --start 2025-12-02 --end 2026-06-03
 
 # 2) Filter + diffs + snapshot + workloads + bench-spec.
-python -m spotlights_engine.repo_bench.cli run `
+python -m repo_bench.cli run `
   --start 2025-12-02 --end 2026-06-03 `
   --rules not-bot,not-revert,not-chore,any-perf-signal-or-label,rank-spec-mag
 
 # 3) Grade findings against the filtered view (run separately, after
 #    a discovery method has produced findings.json against the pinned SHA).
-python -m spotlights_engine.repo_bench.cli match `
+python -m repo_bench.cli match `
   --findings <findings.json> `
   --bench-run-dir runs/repo_bench/bench-<window>__<view>__<UTC>/ `
   --experiment <label>
@@ -91,7 +91,7 @@ weighted score, per-finding verdicts, and citation per matched PR.
 ### Python API
 
 ```python
-from spotlights_engine.repo_bench import run, filtering, matching
+from repo_bench import run, filtering, matching
 
 handle = run.benchmark(
     window_start="2025-12-02",
@@ -289,7 +289,7 @@ regex covers the common case for ~$0.
 All repo-specific patterns (model families, feature flags, hardware
 tags, file→category mappings, perf nouns, chore tags) live in TOML
 configs under
-[`src/spotlights_engine/repo_bench/configs/`](../../src/spotlights_engine/repo_bench/configs/):
+[`src/repo_bench/configs/`](../../src/repo_bench/configs/):
 
 ```
 configs/
@@ -310,7 +310,7 @@ Each TOML file extends a generic baseline (perf nouns like
 don't redeclare what's already generic.
 
 The schema is in
-[`src/spotlights_engine/repo_bench/config.py`](../../src/spotlights_engine/repo_bench/config.py).
+[`src/repo_bench/config.py`](../../src/repo_bench/config.py).
 
 ## Costs, roughly
 
@@ -389,7 +389,7 @@ load-bearing communication outward. Everything else is one-way.
 ## Module layout
 
 ```
-src/spotlights_engine/repo_bench/
+src/repo_bench/
   __init__.py
   cli.py                     # 5 subcommands: aggregate, filter,
                              #   fetch-diffs, run, match

@@ -11,6 +11,7 @@ corresponding `Rule.to_spec()` so `view_id` invalidates.
 from __future__ import annotations
 
 import re
+from typing import Any
 
 # ── Bot detection ─────────────────────────────────────────────────────
 
@@ -77,7 +78,7 @@ def revert_pattern() -> str:
 # insensitive) for any of the chore categories. Anchored at start so
 # `[Perf] Fix slow attention by 30%` is NOT matched.
 
-def _build_non_perf_chore_re(tags_alt: str) -> "re.Pattern[str]":
+def _build_non_perf_chore_re(tags_alt: str) -> re.Pattern[str]:
     """Build the chore-tag regex from a `tag1|tag2|...` alternation.
 
     The alternation is sourced from config (baseline tags + repo-specific
@@ -111,7 +112,7 @@ def non_perf_chore_pattern() -> str:
     return _NON_PERF_CHORE_RE.pattern
 
 
-def perf_strict_pattern_re() -> "re.Pattern[str]":
+def perf_strict_pattern_re() -> re.Pattern[str]:
     """Used by tests to introspect the active strict-perf regex object."""
     return _PERF_STRICT_RE
 
@@ -136,7 +137,8 @@ PERF_TAG_HEURISTIC_VERSION = "v1"
 
 
 def has_perf_tag_title(title: str) -> bool:
-    """True iff title carries a `[Perf]` / `[Performance]` / `[Optimize]` / `perf:` tag at the start."""
+    """True iff title starts with a `[Perf]` / `[Performance]` / `[Optimize]`
+    / `perf:` tag."""
     if not title:
         return False
     return bool(_PERF_TAG_RE.search(title))
@@ -164,7 +166,7 @@ _BRIDGE = (
 )
 
 
-def _build_perf_loose_re(perf_noun_alt: str) -> "re.Pattern[str]":
+def _build_perf_loose_re(perf_noun_alt: str) -> re.Pattern[str]:
     return re.compile(
         rf"(?is)("
         rf"  \d+(?:\.\d+)?\s*%[^\n]{{0,80}}\b(?:{perf_noun_alt})\b"
@@ -175,7 +177,7 @@ def _build_perf_loose_re(perf_noun_alt: str) -> "re.Pattern[str]":
     )
 
 
-def _build_perf_strict_re(perf_noun_alt: str) -> "re.Pattern[str]":
+def _build_perf_strict_re(perf_noun_alt: str) -> re.Pattern[str]:
     return re.compile(
         rf"(?ix)"
         rf"(?:"
@@ -201,7 +203,7 @@ _PERF_STRICT_RE = _build_perf_strict_re(_DEFAULT_PERF_NOUN)
 _PERF_LABELS: frozenset[str] = frozenset()
 
 
-def set_active_config(filter_patterns: "Any") -> None:
+def set_active_config(filter_patterns: Any) -> None:
     """Replace module-level regex objects from compiled-config patterns.
 
     `filter_patterns` is a `CompiledFilterPatterns` (perf_nouns +
@@ -240,7 +242,7 @@ _PCT_NUM_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
 PERF_CLAIM_HEURISTIC_VERSION = "v1"
 
 
-def strict_perf_match(text: str) -> "re.Match[str] | None":
+def strict_perf_match(text: str) -> re.Match[str] | None:
     """Return the first strict-perf match in `text`, or None.
 
     Strips known false-positive fragments (cache-usage stat dumps)
@@ -252,7 +254,7 @@ def strict_perf_match(text: str) -> "re.Match[str] | None":
     return _PERF_STRICT_RE.search(cleaned)
 
 
-def loose_perf_match(text: str) -> "re.Match[str] | None":
+def loose_perf_match(text: str) -> re.Match[str] | None:
     if not text:
         return None
     cleaned = _FALSE_POSITIVE_RE.sub("", text)

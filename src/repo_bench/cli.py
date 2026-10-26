@@ -2,7 +2,7 @@
 
 Invoked as:
 
-    python -m spotlights_engine.repo_bench <subcommand> [args]
+    python -m repo_bench <subcommand> [args]
 
 Subcommands:
     aggregate     Scrape merged PRs from a repo's GitHub for a date window.
@@ -21,17 +21,17 @@ import logging
 import os
 import sys
 from datetime import date, timedelta
-
 from pathlib import Path
 
-from spotlights_engine.repo_bench import (
+from repo_bench import (
     aggregation,
     diff_fetcher,
     filtering,
     matching,
+)
+from repo_bench import (
     run as run_module,
 )
-
 
 # Registry: CLI rule names → constructors.
 _RULES: dict[str, type[filtering.Rule]] = {
@@ -55,7 +55,7 @@ def _build_parser() -> argparse.ArgumentParser:
             "Repo bench — pull merged PRs from a target repo, "
             "filter to perf-relevant ones, pin a snapshot SHA + workload "
             "spec, then grade findings against the filtered view by "
-            "direct diff match. See docs/repo-bench/."
+            "direct diff match. See docs/README.md."
         ),
     )
     sub = p.add_subparsers(dest="subcommand", required=True)
@@ -290,8 +290,6 @@ def _cmd_match(args: argparse.Namespace) -> int:
         wallclock_s=args.wallclock_s,
         max_turns=args.max_turns,
     )
-    n = handle.n_findings or 1
-    pct_strict = 100 * handle.same_idea / n  # rough; finding-level rate is in MD
     bar_w = 30
     filled = max(0, min(bar_w, round(handle.weighted_score * bar_w)))
     bar = "#" * filled + "-" * (bar_w - filled)

@@ -14,19 +14,13 @@ file only needs to add repo-specific patterns.
 
 from __future__ import annotations
 
-import sys
+import tomllib
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:  # pragma: no cover
-    import tomli as tomllib  # type: ignore[no-redef]
-
 from pydantic import BaseModel, ConfigDict, Field
-
 
 # ── Schema ────────────────────────────────────────────────────────────
 

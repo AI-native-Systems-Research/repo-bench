@@ -18,28 +18,28 @@ longer used as a cache key on disk.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from spotlights_engine.repo_bench.filtering.rules import (
+from repo_bench.filtering.rules import (
     Rule,
     RulePredicate,
     RuleRanker,
 )
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.hashing import artifact_hash
+from repo_bench.schemas import (
     SCHEMA_VERSION,
     RawPR,
     RuleSpec,
 )
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.storage import (
     raw_dir,
     read_jsonl_lenient,
     write_json,
     write_jsonl,
 )
-from spotlights_engine.signal_pipeline.layout import artifact_hash
 
 VIEW_VERSION = "0.2.0"
 VIEW_ID_PREFIX_LEN = 12
@@ -229,7 +229,7 @@ def derive(
         n_input=n_input,
         n_kept=len(view_rows),
         n_dropped=n_input - len(view_rows),
-        derived_at=datetime.now(timezone.utc),
+        derived_at=datetime.now(UTC),
     )
     write_json(out_dir / "manifest.json", manifest)
 

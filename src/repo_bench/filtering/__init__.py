@@ -6,17 +6,17 @@ Public surface:
     RankBySpecificityAndMagnitude             # ranker
     Rule, RulePredicate, RuleRanker           # protocol types
 
-See docs/repo-bench/README.md.
+See docs/README.md.
 """
 
-from spotlights_engine.repo_bench.filtering.derive import (
+from repo_bench.filtering.derive import (
     ViewEntry,
     ViewHandle,
     ViewManifest,
     derive,
     view_id_for,
 )
-from spotlights_engine.repo_bench.filtering.rules import (
+from repo_bench.filtering.rules import (
     AnyLoosePerfClaim,
     AnyPerfSignal,
     AnyPerfSignalOrLabel,

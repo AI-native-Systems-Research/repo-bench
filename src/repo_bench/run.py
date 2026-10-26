@@ -37,38 +37,40 @@ import logging
 import os
 import time
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Literal
 
-from spotlights_engine.repo_bench import (
+from repo_bench import (
     aggregation,
     bench_spec,
     diff_fetcher,
     filtering,
     report,
-    snapshot as snapshot_mod,
     workload_commands,
     workloads,
 )
-from spotlights_engine.repo_bench.config import (
+from repo_bench import (
+    snapshot as snapshot_mod,
+)
+from repo_bench.aggregation import ScrapeHandle
+from repo_bench.config import (
     RepoBenchConfig,
     compile_filter_patterns,
     compile_workload_patterns,
     load_config,
 )
-from spotlights_engine.repo_bench.filtering import heuristics as _heuristics
-from spotlights_engine.repo_bench.aggregation import ScrapeHandle
-from spotlights_engine.repo_bench.diff_fetcher import DiffFetchHandle
-from spotlights_engine.repo_bench.filtering.derive import ViewHandle
-from spotlights_engine.repo_bench.schemas import SnapshotPin, StageReport
-from spotlights_engine.repo_bench.storage import (
+from repo_bench.diff_fetcher import DiffFetchHandle
+from repo_bench.filtering import heuristics as _heuristics
+from repo_bench.filtering.derive import ViewHandle
+from repo_bench.schemas import SnapshotPin, StageReport
+from repo_bench.storage import (
     raw_dir,
     runs_root,
     window_id_for,
 )
-from spotlights_engine.repo_bench.workload_commands import WorkloadCommandsHandle
-from spotlights_engine.repo_bench.workloads import WorkloadAnalysisHandle
+from repo_bench.workload_commands import WorkloadCommandsHandle
+from repo_bench.workloads import WorkloadAnalysisHandle
 
 log = logging.getLogger(__name__)
 
@@ -140,7 +142,7 @@ def benchmark(
     `runs_root()` from `storage`.
     """
     _validate_step_range(from_step, through_step)
-    started_at = datetime.now(timezone.utc)
+    started_at = datetime.now(UTC)
     stages: list[StageReport] = []
 
     # Resolve config first; it drives filter + workload patterns.
@@ -427,7 +429,7 @@ def _finalize(
                 window_id=window_id,
                 view_id=handle.view_id or "noview",
                 started_at=started_at,
-                finished_at=datetime.now(timezone.utc),
+                finished_at=datetime.now(UTC),
                 stages=stages,
                 snapshot=handle.snapshot,
                 bench_spec_path=handle.bench_spec_md,

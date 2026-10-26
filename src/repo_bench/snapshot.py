@@ -22,18 +22,17 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from pydantic import ValidationError
 
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.schemas import (
     SNAPSHOT_BUFFER_HOURS,
     RawPR,
     SnapshotPin,
 )
-from spotlights_engine.repo_bench.storage import (
-    data_root,
+from repo_bench.storage import (
     raw_dir,
     read_jsonl_lenient,
     write_json,
@@ -88,7 +87,7 @@ def pick_snapshot(
 
     if not in_view:
         raise ValueError(
-            f"no view PRs found in raw scrape; raw is stale relative to view"
+            "no view PRs found in raw scrape; raw is stale relative to view"
         )
 
     earliest = min(in_view, key=lambda r: r["merged_at"])
@@ -129,7 +128,7 @@ def pick_snapshot(
         buffer_hours=buf,
         n_view=len(in_view),
         rationale=rationale,
-        pinned_at=datetime.now(timezone.utc),
+        pinned_at=datetime.now(UTC),
     )
 
     out_path = run_dir / "snapshot.json"

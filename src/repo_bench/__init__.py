@@ -5,7 +5,7 @@ emits a snapshot SHA + workload spec, and grades discovery findings
 against the answer key by direct match against PR diffs.
 """
 
-from spotlights_engine.repo_bench.schemas import (
+from repo_bench.schemas import (
     AggregationManifest,
     BenchSpec,
     BenchSpecConfig,
@@ -17,7 +17,7 @@ from spotlights_engine.repo_bench.schemas import (
     SnapshotPin,
     StageReport,
 )
-from spotlights_engine.repo_bench.storage import window_id_for
+from repo_bench.storage import window_id_for
 
 __all__ = [
     "AggregationManifest",

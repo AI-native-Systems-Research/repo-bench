@@ -67,6 +67,6 @@ repo-bench match \
   --experiment <experiment_id>
 ```
 
-See [`docs/repo-bench/README.md`](../../docs/repo-bench/README.md) for
+See [`docs/README.md`](../../docs/README.md) for
 the full module surface and the deep-research / signal-pipeline
 discovery sources.

@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+.venv-linux/
+venv/
+env/
+
+# Local secrets
+.env
+
+# Tooling caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# uv
+uv.lock
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Per-run output. Each invocation writes a fresh dir; nothing here is tracked.
+/runs/
+
+# Large or GitHub-rebuildable scrape artifacts.
+# prs.jsonl is 16+ MB, re-fetchable via `repo-bench aggregate`.
+# Per-PR diffs (~17 MB at 200 PRs) re-fetchable via `repo-bench fetch-diffs`.
+# *.partial / pr_numbers.json are scrape-resume artifacts, removed on finalize.
+data/repo_bench/raw/**/prs.jsonl
+data/repo_bench/raw/**/*.partial
+data/repo_bench/raw/**/pr_numbers.json
+data/repo_bench/raw/**/diffs/
+
+# Target-repo checkouts (read-only references, not part of this repo)
+/vllm/
+/target-repos/
