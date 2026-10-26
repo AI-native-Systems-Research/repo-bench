@@ -78,13 +78,18 @@ deterministic, the spec is template rendering. Only `match` costs money
 ## Results so far
 
 vLLM, window `2025-12-02 → 2026-06-03`: **624 perf-relevant PRs** filtered out
-of 5329 merged, snapshot SHA `a690fb5b`, judge model Sonnet. Scored runs target
-the `vllm/v1/kv_offload` module (28 of the 624 PRs touch it).
+of 5329 merged, snapshot SHA `a690fb5b`, judge model Sonnet. The answer key is
+committed at
+[`benchmarks/vllm-2025-12-02__2026-06-03/`](benchmarks/vllm-2025-12-02__2026-06-03/),
+so these numbers are checkable. Scored runs target the `vllm/v1/kv_offload`
+module — 28 of the 624 PRs touch it.
 
 | Discovery method | Findings | Weighted | `same_idea` PRs hit |
 |---|---:|---:|---|
 | spotlights-engine, full mode | 9 | **0.53** | 35342, 37206, 38453, 38460, 40020 |
 | spotlights-engine, code-only | 10 | 0.45 | 37206, 38460, 40020 |
+| spotlights-engine, deep-research full | 9 | 0.39 | 37206, 38460 |
+| spotlights-engine, deep-research code-only | 10 | 0.33 | 37206, 38460 |
 | Signal pipeline, large OTel bundle | 5 | 0.54 | 35342 |
 | Signal pipeline, small OTel bundle | 5 | 0.23 | — |
 
@@ -93,10 +98,10 @@ doubled the signal pipeline's score (0.23 → 0.54), and full mode beats
 code-only mainly on *quality* of hit (5 `same_idea` vs 3) rather than headline
 score.
 
-Full reports with per-finding tables and diff citations are in
+All six reports, with per-finding tables and diff citations, are in
 [`examples/benchmark/`](examples/benchmark/).
 
-> The signal-pipeline rows used an OTel-derived scope, not `kv_offload`, so
+> The two signal-pipeline rows used an OTel-derived scope, not `kv_offload`, so
 > their PR lists aren't directly comparable with the engine rows above.
 
 ## Why the snapshot SHA matters
@@ -111,6 +116,9 @@ PR being scored is therefore strictly newer than the code the method saw. The
 buffer guards against a maintainer merging two related PRs in quick succession,
 where the snapshot's parent could already contain side effects of a change
 about to be scored.
+
+> The committed vLLM key was built with `buffer_hours: 1`, not the 24h default
+> — see the caveat in [`benchmarks/README.md`](benchmarks/README.md).
 
 ## Pointing it at another repo
 
@@ -139,7 +147,8 @@ in every match report, so any later review can verify what produced a number.
 
 - [docs/README.md](docs/README.md) — full module surface: every stage, the
   run-dir layout, schemas, filter rules, workload signals, costs
-- [examples/benchmark/](examples/benchmark/) — curated match reports
+- [benchmarks/](benchmarks/) — committed answer keys (the 624-PR vLLM set)
+- [examples/benchmark/](examples/benchmark/) — the six match reports
 
 ## Provenance
 

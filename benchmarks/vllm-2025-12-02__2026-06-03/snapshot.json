@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.2.0",
+  "window_id": "2025-12-02__2026-06-03",
+  "view_id": "8a6ca48d0d62",
+  "snapshot_sha": "a690fb5bd6773128fc82bf03f612156b387d5b61",
+  "snapshot_pr_number": 29243,
+  "snapshot_merged_at": "2025-12-02T04:53:28Z",
+  "earliest_in_view_pr_number": 29600,
+  "earliest_in_view_merged_at": "2025-12-02T06:21:39Z",
+  "buffer_hours": 1,
+  "n_view": 624,
+  "rationale": "Pinned to PR #29243 (merged 2025-12-02T04:53:28+00:00). The earliest PR in the filtered view is #29600 at 2025-12-02T06:21:39+00:00, so every one of the 624 view PRs is at least 1h future relative to this SHA. Discovery must be blind to those changes.",
+  "pinned_at": "2026-06-09T07:01:34.818208Z"
+}

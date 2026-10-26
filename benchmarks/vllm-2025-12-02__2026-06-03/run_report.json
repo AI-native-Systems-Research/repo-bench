@@ -1,0 +1,85 @@
+{
+  "schema_version": "0.2.0",
+  "run_id": "bench-2025-12-02__2026-06-03__8a6ca48d0d62__20260609T070131Z",
+  "window_id": "2025-12-02__2026-06-03",
+  "view_id": "8a6ca48d0d62",
+  "started_at": "2026-06-09T07:01:31.901997Z",
+  "finished_at": "2026-06-09T07:01:57.881933Z",
+  "stages": [
+    {
+      "stage": "aggregate",
+      "status": "skipped",
+      "detail": "raw scrape exists; skipped",
+      "counts": {},
+      "duration_s": 0.0002503999276086688
+    },
+    {
+      "stage": "filter",
+      "status": "done",
+      "detail": "624 kept of 5329",
+      "counts": {
+        "n_input": 5329,
+        "n_kept": 624,
+        "n_dropped": 4705
+      },
+      "duration_s": 1.6086750000249594
+    },
+    {
+      "stage": "fetch-diffs",
+      "status": "done",
+      "detail": "0 fetched, 623 skipped",
+      "counts": {
+        "n_total": 624,
+        "n_fetched": 0,
+        "n_skipped": 623
+      },
+      "duration_s": 1.1721231000265107
+    },
+    {
+      "stage": "snapshot",
+      "status": "done",
+      "detail": "pinned SHA a690fb5bd677 (PR #29243)",
+      "counts": {
+        "n_view": 624
+      },
+      "duration_s": 0.14648660004604608
+    },
+    {
+      "stage": "workloads",
+      "status": "done",
+      "detail": "624 PRs analyzed, 8-entry portfolio",
+      "counts": {
+        "n_prs": 624,
+        "portfolio_size": 8
+      },
+      "duration_s": 23.01929349999409
+    },
+    {
+      "stage": "bench-spec",
+      "status": "done",
+      "detail": "spec at OBSERVABILITY_BENCH_SPEC.md",
+      "counts": {},
+      "duration_s": 0.029895099927671254
+    }
+  ],
+  "snapshot": {
+    "schema_version": "0.2.0",
+    "window_id": "2025-12-02__2026-06-03",
+    "view_id": "8a6ca48d0d62",
+    "snapshot_sha": "a690fb5bd6773128fc82bf03f612156b387d5b61",
+    "snapshot_pr_number": 29243,
+    "snapshot_merged_at": "2025-12-02T04:53:28Z",
+    "earliest_in_view_pr_number": 29600,
+    "earliest_in_view_merged_at": "2025-12-02T06:21:39Z",
+    "buffer_hours": 1,
+    "n_view": 624,
+    "rationale": "Pinned to PR #29243 (merged 2025-12-02T04:53:28+00:00). The earliest PR in the filtered view is #29600 at 2025-12-02T06:21:39+00:00, so every one of the 624 view PRs is at least 1h future relative to this SHA. Discovery must be blind to those changes.",
+    "pinned_at": "2026-06-09T07:01:34.818208Z"
+  },
+  "bench_spec_path": "runs\\repo_bench\\bench-2025-12-02__2026-06-03__8a6ca48d0d62__20260609T070131Z\\OBSERVABILITY_BENCH_SPEC.md",
+  "next_steps": [
+    "Hand the bench spec (`OBSERVABILITY_BENCH_SPEC.md`) to the observability bench module.",
+    "When their bundle lands, run a discovery method against the target-repo source at the pinned SHA to produce a `findings.json`.",
+    "Run `repo-bench match --findings <path-to-findings.json> --window 2025-12-02__2026-06-03 --view 8a6ca48d0d62 --experiment <name>` to grade."
+  ]
+}

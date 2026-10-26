@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.2.0",
+  "view_version": "0.2.0",
+  "view_id": "8a6ca48d0d62",
+  "window_id": "2025-12-02__2026-06-03",
+  "rules": [
+    {
+      "name": "any-perf-signal-or-label",
+      "version": "v1+v1+v1",
+      "kind": "predicate",
+      "params": {
+        "strict_pattern": "(?ix)(?:  \\b\\d+(?:\\.\\d+)?\\s*%\\s*(?:e2e\\s+|end[- ]to[- ]end\\s+)?  (?:improvement|improvements|gain|gains|increase|decrease|reduction|drop|boost|regression|faster|slower|lower|higher|reduced|increased\\s+(?:in\\s+|to\\s+|of\\s+)?)?  (?:in\\s+|to\\s+|on\\s+)?(?:throughput|latency|speedup|speed[- ]?up|perf|performance|regression|improvement|faster|slower|tput|tps|qps|rps|ttft|tpot|itl|memory|mem|vram|footprint)\\b  | \\b(?:throughput|latency|speedup|speed[- ]?up|perf|performance|regression|improvement|faster|slower|tput|tps|qps|rps|ttft|tpot|itl|memory|mem|vram|footprint)\\b\\s+(?:improvement|improvements|gain|gains|increase|decrease|reduction|drop|boost|regression|faster|slower|lower|higher|reduced|increased)?\\s*(?:by|of|from)?\\s*     (?:up\\s+to\\s+)?\\d+(?:\\.\\d+)?\\s*%  | \\b\\d+(?:\\.\\d+)?\\s*[x×]\\s+(?:speed[- ]?up|speedup|faster|slower)\\b)",
+        "false_positive_strip": "(?i)(?:cache\\s+usage|kv\\s+cache\\s+usage|utilization|util\\.?)\\s*:\\s*\\d+(?:\\.\\d+)?\\s*%",
+        "tag_pattern": "(?ix)^\\s*(?:  \\[\\s*(?:perf(?:ormance)?|optimiz(?:e|ation)|speed[- ]?up)\\b[^\\]]*\\]  | (?:perf|performance)\\s*[:\\-])",
+        "perf_labels": [
+          "kv-connector",
+          "performance"
+        ],
+        "scope": "title-or-body for strict; title-only for tag; labels-any"
+      }
+    },
+    {
+      "name": "not-bot",
+      "version": "v1",
+      "kind": "predicate",
+      "params": {
+        "known_bots": [
+          "copilot",
+          "dependabot[bot]",
+          "github-actions[bot]",
+          "mergify[bot]",
+          "pre-commit-ci[bot]",
+          "renovate[bot]",
+          "vllm-bot"
+        ],
+        "suffix_pattern": "\\[bot\\]$|-bot$|^bot-"
+      }
+    },
+    {
+      "name": "not-chore",
+      "version": "v1",
+      "kind": "predicate",
+      "params": {
+        "pattern": "^\\s*(?:\\[\\s*(?:bug\\s*fix|bugfix|fix|ci|ci/?build|build|test|tests|doc|docs|chore|refactor|cleanup|style|lint|typo|nit|misc|deps|dep)\\s*\\]|(?:bug\\s*fix|bugfix|fix|ci|ci/?build|build|test|tests|doc|docs|chore|refactor|cleanup|style|lint|typo|nit|misc|deps|dep)\\s*[:\\-])",
+        "perf_override": "strict_perf_match(title|body)"
+      }
+    },
+    {
+      "name": "not-revert",
+      "version": "v1",
+      "kind": "predicate",
+      "params": {
+        "pattern": "^\\s*\\[?revert\\b"
+      }
+    },
+    {
+      "name": "rank-spec-mag",
+      "version": "v1",
+      "kind": "ranker",
+      "params": {
+        "formula": "pct * (1 / files_changed)",
+        "magnitude_source": "title-then-body",
+        "magnitude_pattern": "(?ix)(?:  \\b\\d+(?:\\.\\d+)?\\s*%\\s*(?:e2e\\s+|end[- ]to[- ]end\\s+)?  (?:improvement|improvements|gain|gains|increase|decrease|reduction|drop|boost|regression|faster|slower|lower|higher|reduced|increased\\s+(?:in\\s+|to\\s+|of\\s+)?)?  (?:in\\s+|to\\s+|on\\s+)?(?:throughput|latency|speedup|speed[- ]?up|perf|performance|regression|improvement|faster|slower|tput|tps|qps|rps|ttft|tpot|itl|memory|mem|vram|footprint)\\b  | \\b(?:throughput|latency|speedup|speed[- ]?up|perf|performance|regression|improvement|faster|slower|tput|tps|qps|rps|ttft|tpot|itl|memory|mem|vram|footprint)\\b\\s+(?:improvement|improvements|gain|gains|increase|decrease|reduction|drop|boost|regression|faster|slower|lower|higher|reduced|increased)?\\s*(?:by|of|from)?\\s*     (?:up\\s+to\\s+)?\\d+(?:\\.\\d+)?\\s*%  | \\b\\d+(?:\\.\\d+)?\\s*[x×]\\s+(?:speed[- ]?up|speedup|faster|slower)\\b)"
+      }
+    }
+  ],
+  "n_input": 5329,
+  "n_kept": 624,
+  "n_dropped": 4705,
+  "derived_at": "2026-06-09T07:01:33.502415Z"
+}

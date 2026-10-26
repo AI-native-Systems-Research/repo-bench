@@ -36,6 +36,8 @@ uv.lock
 *.swp
 
 # Per-run output. Each invocation writes a fresh dir; nothing here is tracked.
+# Answer keys worth keeping get promoted into `benchmarks/<name>/`, which IS
+# tracked — see benchmarks/README.md.
 /runs/
 
 # Large or GitHub-rebuildable scrape artifacts.
